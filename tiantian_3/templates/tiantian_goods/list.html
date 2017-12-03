@@ -1,0 +1,104 @@
+
+
+{%extends 'tiantian_goods/user_list.html'%}
+
+{%block body%}
+<div class="navbar_con">
+    <div class="navbar clearfix">
+        <div class="subnav_con fl">
+            <h1>全部商品分类</h1>
+            <span></span>
+            <ul class="subnav">
+                <li><a href="/list1_1_1" class="fruit">新鲜水果</a></li>
+                <li><a href="/list2_1_1" class="seafood">海鲜水产</a></li>
+                <li><a href="/list3_1_1" class="meet">猪牛羊肉</a></li>
+                <li><a href="/list4_1_1" class="egg">禽类蛋品</a></li>
+                <li><a href="/list5_1_1" class="vegetables">新鲜蔬菜</a></li>
+                <li><a href="/list6_1_1" class="ice">速冻食品</a></li>
+            </ul>
+        </div>
+        <ul class="navlist fl">
+            <li><a href="">首页</a></li>
+            <li class="interval">|</li>
+            <li><a href="">手机生鲜</a></li>
+            <li class="interval">|</li>
+            <li><a href="">抽奖</a></li>
+        </ul>
+    </div>
+</div>
+
+{%block detail%}
+<div class="breadcrumb">
+    <a href="#">全部分类</a>
+    <span>></span>
+    <a href="/list{{type_obj.id}}">{{type_obj.title}}</a>
+</div>
+{%endblock detail%}
+
+<div class="main_wrap clearfix">
+    {%block left%}
+    <div class="l_wrap fl clearfix">
+        <div class="new_goods">
+            <h3>新品推荐</h3>
+            <ul>
+                {%for i in  n_list%}
+                <li>
+                    <a href="/{{i.id}}"><img src="/static/{{i.g_pic}}"></a>
+                    <h4><a href="/{{i.id}}">{{i.g_name}}</a></h4>
+                    <div class="prize">￥{{i.g_price}}</div>
+                </li>
+                {%endfor%}
+            </ul>
+        </div>
+    </div>
+    {%endblock left%}
+
+    {%block right%}
+    <div class="r_wrap fr clearfix">
+        <div class="sort_bar">
+            <a href="/list{{type_obj.id}}_1_1" {%if sort == 1%} class="active"{%endif%}>默认</a>
+            <a href="/list{{type_obj.id}}_{%if sort == 2%}3{%else%}2{%endif%}_1" {%if sort == 2 or sort == 3%}
+               class="active"{%endif%}>价格
+            </a>
+            <a href="/list{{type_obj.id}}_4_1" {%if sort == 4%} class="active"{%endif%}>人气</a>
+        </div>
+
+        <ul class="goods_type_list clearfix">
+            {%for i in current_page_list%}
+            <li>
+                <a href="/{{i.id}}"><img src="/static/{{i.g_pic}}"></a>
+                <h4><a href="/{{i.id}}">{{i.g_name}}</a></h4>
+                <div class="operate">
+                    <span class="prize">￥{{i.g_price}}</span>
+                    <span class="unit">{{i.g_price}}/{{i.g_unit}}</span>
+                    <a href="#" class="add_goods" title="加入购物车"></a>
+                </div>
+            </li>
+            {%endfor%}
+
+        </ul>
+
+        <div class="pagenation">
+            {%if current_page_list.has_previous%}
+            <a href="/list{{type_obj.id}}_{{sort}}_1">首页</a>
+            <a href="/list{{type_obj.id}}_{{sort}}_{{p_index|add:-1}}">上一页</a>
+            {%endif%}
+
+            {%for i in page_num_list%}
+            {%if p_index == i%}
+            <a href="#" class="active">{{i}}</a>
+            {%else%}
+            <a href="/list{{type_obj.id}}_{{sort}}_{{i}}">{{i}}</a>
+            {%endif%}
+            {%endfor%}
+
+            {%if current_page_list.has_next%}
+            <a href="/list{{type_obj.id}}_{{sort}}_{{p_index|add:1}}">下一页></a>
+            <a href="/list{{type_obj.id}}_{{sort}}_{{current_page_list.paginator.num_pages}}">末页</a>
+            {%endif%}
+        </div>
+    </div>
+    {%endblock right%}
+
+</div>
+{%endblock body%}
